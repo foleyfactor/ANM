@@ -1,5 +1,5 @@
-#import ball_tracking
-#import motorDriver
+import ball_tracking
+import motorDriver
 import threading
 import time
 
