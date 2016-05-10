@@ -3,10 +3,6 @@ import motorDriver
 import threading
 import time
 
-#Constant control values, TBD
-BALL_WIDTH_CONTROL = 20
-BALL_CONTROL_Y = 10
-
 #Create a ball tracker, and start the thread
 cameraThread = ball_tracking.BallTracker()
 cameraThread.start()
@@ -16,7 +12,6 @@ while True:
 	#Get the new camera update from the 
 	info = cameraThread.getBallInfo()
 	if (info):
-		print("yolo")
 		if (not info == True):
 		#so that we can break at any point
 			x = info[0]
