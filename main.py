@@ -38,18 +38,6 @@ while True:
 			else:
 				motorDriver.forward()
 
-			## Eventually will be calculated using similar triangles
-			# ratio = radius/BALL_WIDTH_CONTROL
-			# ground = ratio*BALL_CONTROL_Y
-			# x -= ground
-			# y -= ground		
-			#
-			## Then use physics to calculate the angle
-			# servoControl.angle(physicsAngle)	
-			#
-			## Then fire the coil gun
-			# fire()
-
 		else:
 			motorDriver.left(True)
 			motorDriver.right(False)

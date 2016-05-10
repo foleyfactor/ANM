@@ -35,17 +35,3 @@ def forward():
 def backward():
 	right(False)
 	left(False)
-
-##for i in range(10):
-##	right(True)
-##	left(True)
-##	time.sleep(1)
-##	right(False)
-##	left(True)
-##	time.sleep(1)
-##	right(False)
-##	left(False)
-##	time.sleep(1)
-##	right(True)
-##	left(False)
-##	time.sleep(1)
