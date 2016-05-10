@@ -3,10 +3,11 @@ import time
 
 g.setmode(g.BCM)
 
-r1 = 16
-r2 = 12
-l1 = 8
-l2 = 7
+r1 = 12
+r2 = 16
+l1 = 7
+l2 = 8
+
 
 g.setup(r1, g.OUT)
 g.setup(r2, g.OUT)

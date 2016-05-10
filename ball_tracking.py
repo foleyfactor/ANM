@@ -5,6 +5,7 @@
 # import the necessary packages
 from collections import deque
 from picamera.array import PiRGBArray
+import math
 import threading
 import picamera
 import io
@@ -13,6 +14,7 @@ import argparse
 import imutils
 import time
 import cv2
+import copy
 
 class BallTracker(threading.Thread):
 	def __init__(self):
@@ -26,7 +28,9 @@ class BallTracker(threading.Thread):
 		self.streaming = False
 
 	def getBallInfo(self):
-		ball = self.ballInfo
+		print("ball info received")
+		ball = copy.deepcopy(self.ballInfo)
+		print(ball)
 		self.ballInfo = None
 		return ball
 
@@ -44,8 +48,8 @@ class BallTracker(threading.Thread):
 		# define the lower and upper boundaries of the "green"
 		# ball in the HSV color space, then initialize the
 		# list of tracked points
-		greenLower = (29, 56, 6)
-		greenUpper = (64, 255, 255)
+		greenLower = (25, 125, 125)
+		greenUpper = (50, 255, 255)
 		pts = deque(maxlen=64)
 
 		for fr in camera.capture_continuous(rawCapture, format="bgr", use_video_port=True):
@@ -87,14 +91,28 @@ class BallTracker(threading.Thread):
 				if radius > 10:
 					# draw the circle and centroid on the frame,
 					# then update the list of tracked points
-					print(radius)
+					r = radius
+					k = math.radians(28.5)
+					w = 600
+					o = 0.03429
+					d = 1/(2*math.tan(k))*w*o*(1/r)
+
+					hr = o
+					hp = 2*radius
+					xp = 240-y
+					ratio = hr/hp
+					xr = xp*ratio
+					theta = math.degrees(math.atan(xr/d))
+					print('Ball is '+str(d)+'cm away at an angle of '+str(theta))
 					cv2.circle(frame, (int(x), int(y)), int(radius),
 						(0, 255, 255), 2)
 					cv2.circle(frame, center, 5, (0, 0, 255), -1)
 
 				self.ballInfo = [x, y, radius]
+				print("ball found")
 
 			else:
+				print("no ball found")
 				self.ballInfo = True
 
 			# update the points queue
@@ -114,6 +132,7 @@ class BallTracker(threading.Thread):
 
 			# show the frame to our screen
 			cv2.imshow("Frame", frame)
+			cv2.imshow('Mask', mask)
 			#cv2.imshow("k", mask)
 			key = cv2.waitKey(1) & 0xFF
 

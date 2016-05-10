@@ -1,0 +1,16 @@
+import RPi.GPIO as gpio
+import time, random
+
+def sleepMS(x):
+	time.sleep(x/1000)	
+
+gpio.setmode(gpio.BCM)
+
+gpio.setup(40, gpio.OUT)
+count = 0
+while True:
+	if (count%50==0):
+		delayLength = random.randint(1,30)/2
+		g.output(40, True)
+		sleepMS(delayLength)
+		g.output(40, False)
