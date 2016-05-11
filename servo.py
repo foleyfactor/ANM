@@ -6,14 +6,12 @@ pin = 21
 g.setmode(g.BCM)
 g.setup(pin, g.OUT)
 
-currAngle = 0
-
 def delayMS(x):
 	time.sleep(x/1000)
 
 def angleToTime(angle):
-	angleDecimal = angle/360
-	return 1.25+angleDecimal
+	angleDecimal = 1.2*angle/180
+	return 1.375+angleDecimal
 
 def setServoPos(angle, count):
 	if count == 0:
