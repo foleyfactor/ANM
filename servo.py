@@ -14,6 +14,7 @@ def angleToTime(angle):
 	return 1.375+angleDecimal
 
 def setServoPos(angle, count):
+	angle *= 2
 	if count == 0:
 		return
 	dTime = angleToTime(angle)
