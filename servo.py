@@ -12,13 +12,15 @@ def delayMS(x):
 	time.sleep(x/1000)
 
 def angleToTime(angle):
-	global currAngle
-	angleDecimal = abs(angle-currAngle)/360
-	currAngle = angle
+	angleDecimal = angle/360
 	return 1.25+angleDecimal
 
-def setServoPos(angle):
+def setServoPos(angle, count):
+	if count == 0:
+		return
 	dTime = angleToTime(angle)
 	g.output(pin, True)
 	delayMS(dTime)
 	g.output(pin, False)
+	delayMS(20-dTime)
+	setServoPos(angle, count-1)
