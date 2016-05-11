@@ -81,7 +81,7 @@ class BallTracker(threading.Thread):
 				theta = math.degrees(math.atan(displacementReal/distance))
 				
 				#Express to the user through print/circle drawn
-				print("Ball:\n\t"+str(d)+"m away.\n\t"+str(theta)+" degrees.")
+				print("Ball:\n\t"+str(distance)+"m away.\n\t"+str(theta)+" degrees.")
 
 				cv2.circle(frame, (int(x), int(y)), int(radius),
 					(0, 255, 255), 2)
