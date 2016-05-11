@@ -2,6 +2,7 @@ import ball_tracking
 import motorDriver
 import threading
 import time
+import servo
 
 #Create a ball tracker, and start the thread
 cameraThread = ball_tracking.BallTracker()
@@ -18,19 +19,21 @@ while True:
 			y = info[1]
 			#print(x)
 			radius = info[2]
+			theta = info[3]
 
 			#If the ball is off center left, spin that way
-			if (x < cameraThread.width/2 + 10):
+			if (x < cameraThread.width/2 - 25):
 				motorDriver.right(True)
 				motorDriver.left(False)
 
 			#If the ball is off center right, spin that way
-			elif (x > cameraThread.width/2 - 10):
+			elif (x > cameraThread.width/2 + 25):
 				motorDriver.right(False)
 				motorDriver.left(True)
 
 			# For now, if the ball is centered, charge it head on
 			else:
+				servo.setServoPos(theta)
 				motorDriver.forward()
 
 		else:

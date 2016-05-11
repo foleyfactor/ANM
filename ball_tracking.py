@@ -87,7 +87,7 @@ class BallTracker(threading.Thread):
 					(0, 255, 255), 2)
 				cv2.circle(frame, center, 5, (0, 0, 255), -1)
 
-				self.ballInfo = [x, y, radius]
+				self.ballInfo = [x, y, radius, theta]
 
 			else:
 				print("No ball")

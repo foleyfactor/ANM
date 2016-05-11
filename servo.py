@@ -12,7 +12,7 @@ def delayMS(x):
 	time.sleep(x/1000)
 
 def angleToTime(angle):
-        global currAngle
+	global currAngle
 	angleDecimal = abs(angle-currAngle)/360
 	currAngle = angle
 	return 1.25+angleDecimal
