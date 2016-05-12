@@ -10,11 +10,10 @@ def delayMS(x):
 	time.sleep(x/1000)
 
 def angleToTime(angle):
-	angleDecimal = 1.2*angle/180
+	angleDecimal = 1.2*angle*2/180
 	return 1.375+angleDecimal
 
 def setServoPos(angle, count):
-	angle *= 2
 	if count == 0:
 		return
 	dTime = angleToTime(angle)

@@ -8,6 +8,8 @@ import servo
 cameraThread = ball_tracking.BallTracker()
 cameraThread.start()
 
+prevAngle = 0
+
 #Loop a couple of times
 while True:
 	#Get the new camera update from the 
@@ -33,7 +35,11 @@ while True:
 
 			# For now, if the ball is centered, charge it head on
 			else:
-				servo.setServoPos(theta, 25)
+				if theta > prevAngle:
+					servo.setServoPos(prevAngle + 1, 1)
+				elif theta < prevAngle:
+					servo.setServoPos(prevAngle - 1, 1)
+				
 				motorDriver.forward()
 
 		else:
