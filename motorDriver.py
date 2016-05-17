@@ -13,14 +13,22 @@ g.setup(r1, g.OUT)
 g.setup(r2, g.OUT)
 g.setup(l1, g.OUT)
 g.setup(l2, g.OUT)
+def getTime():
+	return round(time.time()*1000)
 
 def right(forward):
-	g.output(r1, forward)
-	g.output(r2, not forward)
+	if (getTime()%8):
+		g.output(r1, forward)
+		g.output(r2, not forward)
+	else:
+		motorsOff()
 
 def left(forward):
-	g.output(l1, forward)
-	g.output(l2, not forward)
+	if (getTime()%8):
+		g.output(l1, forward)
+		g.output(l2, not forward)
+	else:
+		motorsOff()
 
 def motorsOff():
 	g.output(l1, False)
@@ -29,9 +37,15 @@ def motorsOff():
 	g.output(r2, False)
 
 def forward():
-	left(True)
-	right(True)
+	if (getTime()%8):
+		left(True)
+		right(True)
+	else:
+		motorsOff()
 
 def backward():
-	right(False)
-	left(False)
+	if (getTime()%8):
+		right(False)
+		left(False)
+	else:
+		motorsOff()
