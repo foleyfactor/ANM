@@ -25,19 +25,17 @@ while True:
 
 			#If the ball is off center left, spin that way
 			if (x < cameraThread.width/2 - 25):
-				motorDriver.right(False)
-				motorDriver.left(True)
-
-			#If the ball is off center right, spin that way
-			elif (x > cameraThread.width/2 + 25):
 				motorDriver.right(True)
 				motorDriver.left(False)
 
+			#If the ball is off center right, spin that way
+			elif (x > cameraThread.width/2 + 25):
+				motorDriver.right(False)
+				motorDriver.left(True)
+
 			# For now, if the ball is centered, charge it head on
 			else:
-				if abs(prevAngle - theta) > 2:
-					servo.setServoPos(theta, 2)
-					prevAngle = theta
+				servo.setServoPos(theta, 10)
 				motorDriver.forward()
 
 		else:
