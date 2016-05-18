@@ -35,18 +35,12 @@ while True:
 
 			# For now, if the ball is centered, charge it head on
 			else:
-				if abs(prevAngle - theta) > 2:
-<<<<<<< HEAD
-		#			if prevAngle > theta:
-		#				servo.setServoPos(prevAngle - 4, 10)
-		#				prevAngle -= 4
-		#			elif prevAngle < theta:
-		#				servo.setServoPos(prevAngle + 4, 10)
-		#				prevAngle += 4
-=======
->>>>>>> 3b3d512e550af60bc7eae8451e905c697838e55a
-					servo.setServoPos(theta, 2)
-					prevAngle = theta
+				if prevAngle > theta:
+					servo.setServoPos(prevAngle - 4, 10)
+					prevAngle -= 4
+				elif prevAngle < theta:
+					servo.setServoPos(prevAngle + 4, 10)
+					prevAngle += 4
 				motorDriver.forward()
 				
 		else:
