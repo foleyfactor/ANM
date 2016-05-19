@@ -24,12 +24,12 @@ while True:
 			theta = info[3]
 
 			#If the ball is off center left, spin that way
-			if (x < cameraThread.width/2 - 25):
+			if (x < cameraThread.width/2 - 75):
 				motorDriver.right(False)
 				motorDriver.left(True)
 
 			#If the ball is off center right, spin that way
-			elif (x > cameraThread.width/2 + 25):
+			elif (x > cameraThread.width/2 + 75):
 				motorDriver.right(True)
 				motorDriver.left(False)
 
