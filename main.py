@@ -8,9 +8,9 @@ import servo
 cameraThread = ball_tracking.BallTracker()
 cameraThread.start()
 
-FPS = 60
+FPS = 30
 delay = 1/FPS
-pctOn = 0.5
+pctOn = 0.8
 
 prevAngle = 0
 
