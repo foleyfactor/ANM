@@ -10,7 +10,7 @@ cameraThread.start()
 
 FPS = 30
 delay = 1/FPS
-pctOn = 0.8
+pctOn = 1
 
 prevAngle = 0
 
@@ -53,7 +53,7 @@ while True:
 					servo.setServoPos(prevAngle + 4, 10)
 					prevAngle += 4
 				motorDriver.forward()
-				reduceSpeed()
+				
 				
 		else:
 			motorDriver.left(True)
