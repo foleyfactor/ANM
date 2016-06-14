@@ -9,7 +9,7 @@ cameraThread = ball_tracking.BallTracker()
 cameraThread.start()
 
 FPS = 30
-delay = 1/FPS
+delay = 1.5/FPS
 pctOn = 1
 
 prevAngle = 0
@@ -30,29 +30,29 @@ while True:
 			y = info[1]
 			#print(x)
 			radius = info[2]
-			theta = info[3]
+			theta = info[3] - 5
+			topTheta = info[4]
+			bottomTheta = 2*theta - topTheta
+			print(str(theta)+","+str(topTheta))
 
 			#If the ball is off center left, spin that way
-			if (x < (cameraThread.width/2 - 100)):
+			if (x < (cameraThread.width/2 - 50)):
 				motorDriver.right(False)
 				motorDriver.left(True)
 				reduceSpeed()
 
 			#If the ball is off center right, spin that way
-			elif (x > (cameraThread.width/2 + 100)):
+			elif (x > (cameraThread.width/2 + 50)):
 				motorDriver.right(True)
 				motorDriver.left(False)
 				reduceSpeed()
 
 			# For now, if the ball is centered, charge it head on
 			else:
-				if prevAngle > theta:
-					servo.setServoPos(prevAngle - 4, 10)
-					prevAngle -= 4
-				elif prevAngle < theta:
-					servo.setServoPos(prevAngle + 4, 10)
-					prevAngle += 4
-				motorDriver.forward()
+				if (not (prevAngle > bottomTheta and prevAngle < topTheta)) and (abs(prevAngle - theta) > 2):
+					servo.setServoPos(theta, 10)
+					prevAngle = theta
+				#motorDriver.forward()
 				
 				
 		else:

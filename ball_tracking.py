@@ -42,8 +42,8 @@ class BallTracker(threading.Thread):
 		rawCapture = PiRGBArray(camera, size=(640, 480))
 
 		#Mask params
-		greenLower = (25, 125, 125)
-		greenUpper = (50, 255, 255)
+		greenLower = (30,125,125)
+		greenUpper = (35,255,255)
 
 		#Streaming video
 		for fr in camera.capture_continuous(rawCapture, format="bgr", use_video_port=True):
@@ -53,7 +53,9 @@ class BallTracker(threading.Thread):
 			mask = cv2.inRange(hsv, greenLower, greenUpper)
 			mask = cv2.erode(mask, None, iterations=2)
 			mask = cv2.dilate(mask, None, iterations=2)
-
+			
+			cv2.imshow("k", mask)
+			
 			#Find contours
 			cnts = cv2.findContours(mask.copy(), cv2.RETR_EXTERNAL,
 				cv2.CHAIN_APPROX_SIMPLE)[-2]
@@ -66,29 +68,37 @@ class BallTracker(threading.Thread):
 				((x, y), radius) = cv2.minEnclosingCircle(c)
 				M = cv2.moments(c)
 				center = (int(M["m10"] / M["m00"]), int(M["m01"] / M["m00"]))
+				if radius>10:
 
-				#Calculations required for distance
-				fov = math.radians(28.5)
-				widthPixels = 600
-				objectSize = 0.03429
-				distance = 1/(2*math.tan(fov))*widthPixels*objectSize*(1/radius)
+					#Calculations required for distance
+					fov = math.radians(28.5)
+					widthPixels = 600
+					objectSize = 0.03429
+					distance = 1/(2*math.tan(fov))*widthPixels*objectSize*(1/radius)
 
-				#Calculations required for servo angle
-				heightReal = objectSize
-				heightPixels = 2*radius
-				displacementPixels = 240-y
-				displacementReal = displacementPixels*(heightReal/heightPixels)
-				theta = math.degrees(math.atan(displacementReal/distance))
-				
-				#Express to the user through print/circle drawn
-				print("Ball:\n\t"+str(distance)+"m away.\n\t"+str(theta)+" degrees.")
+					#Calculations required for servo angle
+					heightReal = objectSize
+					heightPixels = 2*radius
+					#Vertical Displacement of center of ball
+					displacementPixels = 240-y
+					displacementReal = displacementPixels*(heightReal/heightPixels)
+					#Vertical Displacement of top of ball
+					displacementTopPixels = displacementPixels-radius
+					displacementTopReal = displacementTopPixels*(heightReal/heightPixels)
 
-				cv2.circle(frame, (int(x), int(y)), int(radius),
-					(0, 255, 255), 2)
-				cv2.circle(frame, center, 5, (0, 0, 255), -1)
-
-				self.ballInfo = [x, y, radius, theta]
-
+					topTheta = math.degrees(math.atan(displacementTopReal/distance))
+					theta = math.degrees(math.atan(displacementReal/distance))
+					
+					#Express to the user through print/circle drawn
+					print("Ball:\n\t"+str(distance)+"m away.\n\t"+str(theta)+" degrees\n\t"+str(topTheta))
+	
+					cv2.circle(frame, (int(x), int(y)), int(radius),(0, 255, 255), 2)
+					cv2.circle(frame, center, 5, (0, 0, 255), -1)
+	
+					self.ballInfo = [x, y, radius, theta, topTheta]
+				else:
+					print("No Ball")
+					self.ballInfo = True
 			else:
 				print("No ball")
 				self.ballInfo = True
